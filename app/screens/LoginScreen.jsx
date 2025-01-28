@@ -7,6 +7,7 @@ import {
   View,
   Animated,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Logo, UserProfileIcon } from "../_components/Icons";
@@ -50,7 +51,7 @@ const LoginScreen = () => {
 
   return (
     <GlobalBackground>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Animated.View
           style={[
             styles.logoContainer,
@@ -108,8 +109,8 @@ const LoginScreen = () => {
               style={styles.input}
               placeholderTextColor="#7C7C7C"
               secureTextEntry={!passwordVisible}
-              onChangeText={setPassword}
-              value={password}
+              // onChangeText={setPassword}
+              // value={password}
             />
           </Animated.View>
           <TouchableOpacity
@@ -145,7 +146,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
-      </View>
+      </SafeAreaView>
     </GlobalBackground>
   );
 };

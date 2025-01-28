@@ -1,14 +1,78 @@
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import React from "react";
 import GlobalBackground from "@/app/_components/GlobalBackground";
 import Header from "@/app/_components/Header";
-import { Ionicons } from "@expo/vector-icons";
-import { TextInput } from "react-native-gesture-handler";
+// import { Ionicons } from "@expo/vector-icons";
+// import { TextInput } from "react-native-gesture-handler";
+import { FilterIcon, SearchIcon } from "../_components/Icons";
+import PatientCard from "@/app/_components/PatientCard";
 
-// import * as cornerStoneTools from "@cornerstonejs/tools";
-
-// const { PanTool, WindowLevelTool } = cornerStoneTools;
+const patients = [
+  {
+    id: 1,
+    name: "Sai Krishna",
+    PID: 20003330,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "06-Nov-2024",
+    tag: "CT&RT",
+    size: "44MB",
+  },
+  {
+    id: 2,
+    name: "Manjunath",
+    PID: 20003331,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "08-Nov-2024",
+    tag: "CT",
+    size: "14MB",
+  },
+  {
+    id: 3,
+    name: "TamilVanan",
+    PID: 20003332,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "08-Nov-2024",
+    tag: "CT&RT",
+    size: "34.2MB",
+  },
+  {
+    id: 4,
+    name: "Vignesh Kumar",
+    PID: 20003333,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "12-Nov-2024",
+    tag: "CT&RT",
+    size: "12.3MB",
+  },
+  {
+    id: 5,
+    name: "Muralitharan",
+    PID: 20003334,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "12-Nov-2024",
+    tag: "RT",
+    size: "37MB",
+  },
+  {
+    id: 6,
+    name: "Muralitharan",
+    PID: 20003335,
+    description: "Mild cortical atrophy consistent with age-related changes...",
+    date: "12-Nov-2024",
+    tag: "RT",
+    size: "37MB",
+  },
+];
 
 const SecondScreen = ({ navigation }) => {
   //   const htmlContent = `
@@ -72,49 +136,87 @@ const SecondScreen = ({ navigation }) => {
 
   return (
     <GlobalBackground>
-      {/* <View style={styles.Header}> */}
-      <Header
-        onBackPress={() => {
-          navigation.goBack();
-          console.log("clicked");
-        }}
-        title="Home"
-      />
-      {/* </View> */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search by name id or description..."
-          placeholderTextColor="#aaa"
-        />
-        <Ionicons name="filter-outline" size={20} color="#fff" />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Header
+            onBackPress={() => {
+              navigation.goBack();
+              console.log("clicked");
+            }}
+            title="Home"
+          />
+        </View>
+        <View style={styles.searchContainer}>
+          <View style={styles.searchSubContainer1}>
+            <SearchIcon width={20} height={20} />
 
-      <Text></Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search by name id or description..."
+              placeholderTextColor="#aaa"
+            />
+          </View>
+          <FilterIcon width={25} height={25} />
+        </View>
+        <View style={styles.patientList}>
+          <ScrollView style={{ width: "100%" }}>
+            {patients.map((patient, index) => (
+              <PatientCard data={patient} key={index} />
+            ))}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     </GlobalBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 16,
+    paddingVertical: 20,
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "start",
+    alignItems: "center",
+    zIndex: 10,
+  },
+  header: {
+    paddingVertical: 20,
+    width: "100%",
+    marginHorizontal: "auto",
   },
   searchContainer: {
     width: "90%",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
     backgroundColor: "#2A2A2A",
+    borderWidth: 1,
+    borderColor: "#3C3C3C",
     borderRadius: 15,
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  // searchInput: {
-  //   backgroundColor: "#2A2A2A",
-  // },
-  // Header: {
-  // position: "absolute",
-  // top: 1,
-  // },
+  searchSubContainer1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  patientList: {
+    width: "90%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    zIndex: 20,
+    // height: "100%",
+    // overflowY: "auto",
+  },
 });
 
 export default SecondScreen;

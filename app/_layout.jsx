@@ -5,6 +5,7 @@ import SecondScreen from "./screens/SecondScreen";
 import ErrorBoundary from "@/app/_components/ErrorBoundary";
 import { ErrorProvider } from "@/app/_components/ErrorContext";
 import Header from "./_components/Header";
+import FileScreen from "@/app/screens/FileScreen";
 
 Stack = createStackNavigator();
 
@@ -21,10 +22,11 @@ const RootLayout = () => {
             name="home"
             component={SecondScreen}
             // options={{
-              // headerShown: true,
-              // header: () => <Header title="Home" />,
+            // headerShown: true,
+            // header: () => <Header title="Home" />,
             // }}
           />
+          <Stack.Screen name="webview" component={FileScreen} />
         </Stack.Navigator>
       </ErrorBoundary>
     </ErrorProvider>

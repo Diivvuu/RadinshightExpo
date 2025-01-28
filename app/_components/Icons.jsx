@@ -1,6 +1,45 @@
 import Svg, { Circle, Rect } from "react-native-svg";
 import { Path } from "react-native-svg/src/elements";
 
+export function FilterIcon({ width, height }) {
+  return (
+    <Svg
+      width={width ? width : "19"}
+      height={height ? height : "18"}
+      viewBox="0 0 19 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        d="M15.4899 1.66663V7.16663M15.4899 7.16663C14.4774 7.16663 13.6566 7.98744 13.6566 8.99996C13.6566 10.0125 14.4774 10.8333 15.4899 10.8333M15.4899 7.16663C16.5024 7.16663 17.3232 7.98744 17.3232 8.99996C17.3232 10.0125 16.5024 10.8333 15.4899 10.8333M15.4899 10.8333V16.3333M9.07324 1.66663V12.6666M9.07324 12.6666C8.06072 12.6666 7.23991 13.4874 7.23991 14.5C7.23991 15.5125 8.06072 16.3333 9.07324 16.3333C10.0858 16.3333 10.9066 15.5125 10.9066 14.5C10.9066 13.4874 10.0858 12.6666 9.07324 12.6666ZM2.65658 5.33329V16.3333M2.65658 5.33329C3.6691 5.33329 4.48991 4.51248 4.48991 3.49996C4.48991 2.48744 3.6691 1.66663 2.65658 1.66663C1.64405 1.66663 0.823242 2.48744 0.823242 3.49996C0.823242 4.51248 1.64405 5.33329 2.65658 5.33329Z"
+        stroke="#7C7C7C"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </Svg>
+  );
+}
+
+export function SearchIcon({ width, height }) {
+  return (
+    <Svg
+      width={width ? width : "18"}
+      height={height ? height : "18"}
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        d="M16.3333 16.3333L12.4863 12.4864M14.5 7.625C14.5 3.82804 11.422 0.75 7.625 0.75C3.82804 0.75 0.75 3.82804 0.75 7.625C0.75 11.422 3.82804 14.5 7.625 14.5C11.422 14.5 14.5 11.422 14.5 7.625Z"
+        stroke="#7C7C7C"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </Svg>
+  );
+}
+
 export function UserProfileIcon2() {
   return (
     <Svg
@@ -65,25 +104,25 @@ export function PasswordIcon() {
   );
 }
 
-export function UserProfileIcon() {
+export function UserProfileIcon({ height, width, color }) {
   return (
     <Svg
-      width="18"
-      height="20"
+      width={width ? width : "18"}
+      height={height ? height : "20"}
       viewBox="0 0 18 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Path
         d="M14.5 19.0001H3.5C2.11929 19.0001 1 17.8808 1 16.5001C1 12.4194 7 12.5001 9 12.5001C11 12.5001 17 12.4194 17 16.5001C17 17.8808 15.8807 19.0001 14.5 19.0001Z"
-        stroke="#7C7C7C"
+        stroke={color ? color : "#7C7C7C"}
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <Path
         d="M9 9C11.2091 9 13 7.20914 13 5C13 2.79086 11.2091 1 9 1C6.79086 1 5 2.79086 5 5C5 7.20914 6.79086 9 9 9Z"
-        stroke="#7C7C7C"
+        stroke={color ? color : "#7C7C7C"}
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
