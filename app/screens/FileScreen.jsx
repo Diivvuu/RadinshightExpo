@@ -7,7 +7,7 @@ export default function FileScreen() {
     return (
       <View style={styles.container}>
         <iframe
-          src="https://demoec.radinsightai.com/"
+          src="https://www.wikipedia.org"
           style={styles.iframe}
           title="WebView Fallback"
         />
@@ -18,7 +18,7 @@ export default function FileScreen() {
   return (
     <View style={styles.container}>
       <WebView
-        source={{ uri: "https://demoec.radinsightai.com/" }}
+        source={{ uri: "https://www.wikipedia.org" }}
         style={styles.webview}
         startInLoadingState={true}
       />
