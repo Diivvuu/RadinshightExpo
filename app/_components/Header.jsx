@@ -11,7 +11,6 @@ const Header = ({ title, onBackPress }) => {
       <TouchableOpacity
         onPress={() => {
           onBackPress();
-          // navigation.navigate("Login");
           console.log("clicked");
         }}
         style={{ zIndex: 20, padding: 10 }}

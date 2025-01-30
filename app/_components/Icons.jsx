@@ -1,6 +1,23 @@
 import Svg, { Circle, Rect } from "react-native-svg";
 import { Path } from "react-native-svg/src/elements";
 
+export function CalendarIcon({ width, height }) {
+  return (
+    <Svg
+      width="17"
+      height="16"
+      viewBox="0 0 17 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        d="M12.3947 1.42576V0.325928H11.159V1.42576H5.08518V0.325928H3.84941V1.42576H0V15.6741H16.17V1.42576H12.3947ZM14.9342 14.4384H1.23577V6.75809H14.9342V14.4384ZM1.23577 5.52232V2.66153H3.84941V3.76136H5.08518V2.66153H11.159V3.76136H12.3947V2.66153H14.9342V5.52232H1.23577Z"
+        fill="#7C7C7C"
+      />
+    </Svg>
+  );
+}
+
 export function AIIcon({ width, height }) {
   return (
     <Svg
