@@ -10,11 +10,11 @@ const Header = ({ title, onBackPress }) => {
     <View style={styles.header}>
       <TouchableOpacity
         onPress={() => {
-          // onBackPress();
-          navigation.navigate("Login");
+          onBackPress();
+          // navigation.navigate("Login");
           console.log("clicked");
         }}
-        style={{ zIndex: 20 }}
+        style={{ zIndex: 20, padding: 10 }}
       >
         <BackButton />
         {/* <Ionicons name="arrow-back" size={24} color="#fff" /> */}
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 15,
-    // backgroundColor: "#222", // Adjust color to match UI
   },
   headerTitle: {
     fontSize: 18,
@@ -45,8 +44,6 @@ const styles = StyleSheet.create({
   },
   profileIcon: {
     padding: 7,
-    borderWidth: 1,
-    borderColor: "#fff",
     backgroundColor: "#333",
     borderRadius: 25,
     color: "white",

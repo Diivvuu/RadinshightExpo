@@ -111,7 +111,7 @@ const SecondScreen = ({ navigation }) => {
           </ScrollView>
         </View>
       </SafeAreaView>
-      {openSearch && <PatientSearch />}
+      {openSearch && <PatientSearch setOpenSearch = {setOpenSearch}/>}
     </GlobalBackground>
   );
 };

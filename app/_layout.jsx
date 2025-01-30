@@ -6,6 +6,7 @@ import ErrorBoundary from "@/app/_components/ErrorBoundary";
 import { ErrorProvider } from "@/app/_components/ErrorContext";
 import Header from "./_components/Header";
 import FileScreen from "@/app/screens/FileScreen";
+import SelectView from "@/app/screens/SelectView";
 
 Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const RootLayout = () => {
             // header: () => <Header title="Home" />,
             // }}
           />
+          <Stack.Screen name="selectView" component={SelectView} />
           <Stack.Screen name="webview" component={FileScreen} />
         </Stack.Navigator>
       </ErrorBoundary>

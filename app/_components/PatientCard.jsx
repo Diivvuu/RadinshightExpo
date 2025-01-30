@@ -3,17 +3,18 @@ import React from "react";
 import { UserProfileIcon } from "./Icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "expo-router";
+import { PatientCardStyles } from "./CardStyles";
 
 const PatientCard = ({ data }) => {
   const navigation = useNavigation();
   return (
-    <View style={styles.card}>
+    <View style={PatientCardStyles.card}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("webview");
+          navigation.navigate("selectView", { patient: data });
         }}
       >
-        <View style={styles.cardSub}>
+        <View style={PatientCardStyles.cardSub}>
           <View
             style={{
               display: "flex",
@@ -46,7 +47,6 @@ const PatientCard = ({ data }) => {
                 colors={["#CF5510", "#B44A0E"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                // style={styles.button}
                 style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
               >
                 <Text style={{ paddingHorizontal: 5, color: "white" }}>
@@ -76,30 +76,5 @@ const PatientCard = ({ data }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    zIndex: 20,
-    backgroundColor: "#2A2A2A",
-    width: "100%",
-    borderWidth: 2,
-    borderColor: "#3C3C3C",
-    borderRadius: 10,
-    color: "white",
-    marginVertical: 15,
-    // padding: 6,
-    paddingLeft: 6,
-    paddingtop: 10,
-    paddingBottom: 6,
-  },
-  cardSub: {
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    flex: 1,
-  },
-});
 
 export default PatientCard;

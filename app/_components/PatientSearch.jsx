@@ -1,12 +1,15 @@
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
-const PatientSearch = () => {
+const PatientSearch = ({ setOpenSearch }) => {
   return (
     <Modal animationType="fade" transparent={true} visible={true}>
       <View style={modalStyles.modalBackground}>
         <View style={modalStyles.modalContainer}>
-          <TouchableOpacity style={modalStyles.closeButton}>
+          <TouchableOpacity
+            onPress={() => setOpenSearch(false)}
+            style={modalStyles.closeButton}
+          >
             <Text style={modalStyles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
