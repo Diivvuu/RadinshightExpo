@@ -17,6 +17,7 @@ import Icon from "react-native-vector-icons/Feather";
 import Svg, { Text as SvgText } from "react-native-svg";
 import { useNavigation } from "expo-router";
 import styles from "./LoginStyles";
+import { login } from "@/app/api/auth";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -26,6 +27,30 @@ const LoginScreen = () => {
   const logoPosition = useState(new Animated.Value(0))[0];
   const fadeIn = useState(new Animated.Value(0))[0];
   const textFadeOut = useState(new Animated.Value(1))[0];
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    console.log("clicked", username, password);
+
+    if (username && password) {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await login(username, password);
+        console.log(username, password);
+        navigation.navigate("home");
+      } catch (error) {
+        console.error("login failed", error);
+        setError("invalid username or password");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setError("please enter both username and password");
+    }
+  };
 
   useEffect(() => {
     //  throw new Error("Test error in LoginScreen!");
@@ -110,8 +135,8 @@ const LoginScreen = () => {
               style={styles.input}
               placeholderTextColor="#7C7C7C"
               secureTextEntry={!passwordVisible}
-              // onChangeText={setPassword}
-              // value={password}
+              onChangeText={setPassword}
+              value={password}
             />
           </Animated.View>
           <TouchableOpacity
@@ -134,7 +159,7 @@ const LoginScreen = () => {
           }}
         >
           <Animated.View style={styles.button}>
-            <TouchableOpacity onPress={() => navigation.navigate("home")}>
+            <TouchableOpacity onPress={handleLogin}>
               <LinearGradient
                 colors={["#CF5510", "#B44A0E"]}
                 start={{ x: 0, y: 0 }}

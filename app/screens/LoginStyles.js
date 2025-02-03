@@ -1,6 +1,5 @@
 const { StyleSheet } = require("react-native");
 
-
 //login screen
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2c2c2c",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    zIndex: 20,
+    zIndex: 30,
     borderColor: "#7C7C7C",
   },
   PasswordInput: {
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2c2c2c",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    zIndex: 20,
+    zIndex: 30,
     borderColor: "#7C7C7C",
   },
   UserNameIcon: {
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
     paddingLeft: 15,
-    zIndex: 20,
+    zIndex: 30,
   },
   button: {
     width: "85%",
@@ -80,5 +79,3 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
-
-
