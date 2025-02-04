@@ -146,7 +146,7 @@ const LoginScreen = () => {
               name={passwordVisible ? "eye-off" : "eye"} // Toggle eye icon
               size={20}
               color="#7C7C7C"
-              style={styles.eyeIcon}
+              style={{ paddingHorizontal: 0 }}
             />
           </TouchableOpacity>
         </Animated.View>

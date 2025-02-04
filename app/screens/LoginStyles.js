@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     backgroundColor: "#2c2c2c",
-    paddingVertical: 10,
+    // paddingVertical: 10,
     paddingHorizontal: 15,
     zIndex: 30,
     borderColor: "#7C7C7C",
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     backgroundColor: "#2c2c2c",
-    paddingVertical: 10,
+    // paddingVertical: 10,
     paddingHorizontal: 15,
-    zIndex: 30,
+    zIndex: 40,
     borderColor: "#7C7C7C",
   },
   UserNameIcon: {
@@ -63,7 +63,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
     paddingLeft: 15,
-    zIndex: 30,
+    zIndex: 40,
+    paddingVertical: 20,
+    width : "90%"
   },
   button: {
     width: "85%",
