@@ -14,7 +14,7 @@ import { CalendarIcon } from "./Icons";
 const ButtonOptions1 = ["RESTRUCT", "CT", "PT", "SEG", "MG"];
 const ButtonOptions2 = ["Last Year", "Last 30 days", "Last week"];
 
-const PatientSearch = ({ setOpenSearch }) => {
+const PatientSearch = ({ setOpenSearch, setformValue }) => {
   return (
     <Modal animationType="fade" transparent={true} visible={true}>
       <View style={modalStyles.modalBackground}>

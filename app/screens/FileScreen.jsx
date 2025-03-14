@@ -7,7 +7,7 @@ export default function FileScreen() {
     return (
       <View style={styles.container}>
         <iframe
-          src="https://www.wikipedia.org"
+          src="https://radinsightai.com:3112/"
           style={styles.iframe}
           title="WebView Fallback"
         />

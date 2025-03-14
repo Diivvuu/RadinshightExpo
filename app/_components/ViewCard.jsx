@@ -24,7 +24,7 @@ const ViewCard = ({ data }) => {
           }}
         >
           <NoteIcon />
-          <Text style={{ color: "white" }}>{data.type}</Text>
+          <Text style={{ color: "white" }}>{data.series_description}</Text>
         </View>
         <View
           style={{
@@ -46,7 +46,7 @@ const ViewCard = ({ data }) => {
               color: "white",
             }}
           >
-            {data.tag}c
+            {data.modality}
           </Text>
         </View>
       </View>
@@ -60,7 +60,7 @@ const ViewCard = ({ data }) => {
           }}
         >
           <GalleryIcon />
-          <Text style={{ color: "white" }}>{data.imgQuantity}</Text>
+          <Text style={{ color: "white" }}>{data.num_series_instances}</Text>
         </View>
       </View>
       <View style={ViewCardStyles.cardContainer1}>
@@ -73,7 +73,7 @@ const ViewCard = ({ data }) => {
             justifyContent: "flex-end",
           }}
         >
-          <Text style={{ color: "white" }}>{data.date}</Text>
+          <Text style={{ color: "white" }}>{data.series_date}</Text>
         </View>
       </View>
     </TouchableOpacity>

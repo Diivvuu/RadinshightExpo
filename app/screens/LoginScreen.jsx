@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Image,
   StyleSheet,
@@ -17,12 +18,17 @@ import Icon from "react-native-vector-icons/Feather";
 import Svg, { Text as SvgText } from "react-native-svg";
 import { useNavigation } from "expo-router";
 import styles from "./LoginStyles";
-import { login } from "@/app/api/auth";
+import { login } from "../api/auth";
+import { validateDicomServer } from "../api/dicomValidation";
+import LocalStorageService from "../services/LocalStorageServices";
+import  api from "../api/ApiServer";
+
+const isNotEmpty = (obj) => obj && Object.keys(obj).length
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("pass");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const logoPosition = useState(new Animated.Value(0))[0];
   const fadeIn = useState(new Animated.Value(0))[0];
@@ -38,11 +44,64 @@ const LoginScreen = () => {
       setError(null);
 
       try {
+        debugger;
+        //navigation.navigate("home");
+        // const dicomTest = await validateDicomServer();
+        //console.log(dicomTest);
         const data = await login(username, password);
-        console.log(username, password);
-        navigation.navigate("home");
+        console.log('logininfo', data)
+        let userData = data.data;
+        console.log(userData, "look");
+       if (userData.status === "error") {
+           console.error("login failed1", error);
+           setError("invalid username or password");
+         }
+       else if (userData.status === "pending" ){
+           console.error("login failed2", error);
+         setError("invalid username or password");
+         }
+         else {
+          await LocalStorageService.setUserInfo(userData);
+          if (
+            isNotEmpty(userData) &&
+            isNotEmpty(userData.user) &&
+            userData.access_token !== ""
+          ) {
+            // let licdata = await axios.get(APPCONFIG.HOST + "findall", {
+            //   headers: headers,
+            // });
+            console.log('findallapi', 'started')
+            let licdata = await api.get("/findall");
+            let licenseDatas = licdata.data.data;
+            console.log('findallresponse', licenseDatas)
+            let newDate = new Date();
+            let lic_date = new Date(licenseDatas[0].licenseTo);
+            LocalStorageService.setHospitalLimit(licenseDatas[0].hospitalLimit);
+            if (lic_date.getTime() < newDate.getTime()) {
+              // nextState.status = false
+              LocalStorageService.setLicenseStatus(false);
+            } else {
+              // nextState.status = true
+              LocalStorageService.setLicenseStatus(true);
+            }
+            // nextState.data = action.payload
+            // nextState.module = action.payload[0].moduleIds
+            LocalStorageService.setLicense(licenseDatas);
+            // let privilagedata = await axios.get(
+            //   APPCONFIG.HOST + "roles/" + userData.user.roleId + "/privileges",
+            //   { headers: headers }
+            // );
+            
+            let privilagedata = await api.get("/roles/" + userData.user.roleId + "/privileges")
+            let privilageDatas = privilagedata.data.data;
+            LocalStorageService.setPrivilege(privilageDatas);
+            LocalStorageService.setHospitalId(userData.user.hospital.hospitalId)
+            navigation.navigate("home");
+          }
+         }
+        
       } catch (error) {
-        console.error("login failed", error);
+        console.error("login failed3", error);
         setError("invalid username or password");
       } finally {
         setLoading(false);
@@ -127,6 +186,7 @@ const LoginScreen = () => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              opacity: fadeIn ,
             }}
           >
             <PasswordIcon style={styles.UserNameIcon} />
@@ -136,7 +196,7 @@ const LoginScreen = () => {
               placeholderTextColor="#7C7C7C"
               secureTextEntry={!passwordVisible}
               onChangeText={setPassword}
-              value={password}
+              value="pass"
             />
           </Animated.View>
           <TouchableOpacity

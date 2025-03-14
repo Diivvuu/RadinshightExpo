@@ -35,10 +35,10 @@ const PatientCard = ({ data }) => {
               <UserProfileIcon height={23} width={23} color={"white"} />
               <View>
                 <Text style={{ color: "white", fontSize: 15 }}>
-                  {data.name}
+                  {data.patientName}
                 </Text>
                 <Text style={{ color: "#B8B8B8", fontSize: 12 }}>
-                  PID : {data.PID}
+                  PID : {data.patientID}
                 </Text>
               </View>
             </View>
@@ -50,7 +50,7 @@ const PatientCard = ({ data }) => {
                 style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
               >
                 <Text style={{ paddingHorizontal: 5, color: "white" }}>
-                  {data.tag}
+                  {data.modalitiesInStudy}
                 </Text>
               </LinearGradient>
             </View>
@@ -68,8 +68,8 @@ const PatientCard = ({ data }) => {
               marginTop: 14,
             }}
           >
-            <Text style={{ fontSize: 12, color: "white" }}>{data.date}</Text>
-            <Text style={{ fontSize: 12, color: "white" }}>{data.size}</Text>
+            <Text style={{ fontSize: 12, color: "white" }}>{data.studyDate}</Text>
+            <Text style={{ fontSize: 12, color: "white" }}>{data?.numberOfStudyRelatedInstances}</Text>
           </View>
         </View>
       </TouchableOpacity>
