@@ -106,7 +106,8 @@ const SecondScreen = ({ navigation }) => {
       queryParams: searchQuery,
     };
     debugger;
-    api.get('http://13.201.159.251:8001/patientlist/635d8fc9-db56-406b-8df6-f6cb2eade6ec/aphcor')
+    api.get('https://radinsightai.com:3020/patientlist/635d8fc9-db56-406b-8df6-f6cb2eade6ec/aphcor')
+    //api.get('patientlist/635d8fc9-db56-406b-8df6-f6cb2eade6ec/aphcor')
   .then(response => {
     if (response.ok) {
       console.log("studiesoutput", response.data);

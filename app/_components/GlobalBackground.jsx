@@ -1,16 +1,21 @@
-// GlobalBackground.jsx
-import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Image, StyleSheet, StatusBar, Platform } from 'react-native';
 
 const GlobalBackground = ({ children }) => {
   return (
     <View style={styles.container}>
-      {/* Background Image */}
-      <Image
-        source={require("../../assets/Wave Background.png")} // Your global background image
-        style={styles.backgroundImage}
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
       />
-      {/* Render children */}
+
+      <Image
+        source={require('../../assets/Wave Background.png')}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      />
+
       <View style={styles.content}>{children}</View>
     </View>
   );
@@ -18,26 +23,26 @@ const GlobalBackground = ({ children }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ensure it takes up the full height
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1a1a1a", // Fallback background in case the image fails to load
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a1a1a',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, // <- this is key!
   },
   backgroundImage: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1, // Put the background behind all content
-    // resizeMode: "cover", // Make sure the background image covers the entire screen
+    zIndex: 1,
   },
   content: {
-    // flex: 1, // Ensure child content also fills the parent container
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center", // Center content
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 2, // put content above image
   },
 });
 

@@ -3,7 +3,7 @@ import LocalStorageService from '../services/LocalStorageServices';
 
 // Define the API base URL
 const api = create({
-  baseURL: 'http://13.201.159.251:8001/api', // Replace with your API endpoint
+  baseURL: 'https://radinsightai.com:3020/', // Replace with your API endpoint
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

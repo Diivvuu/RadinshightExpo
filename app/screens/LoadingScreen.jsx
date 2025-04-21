@@ -1,7 +1,7 @@
 // LoadingScreen.jsx
-import React from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import styles from "./LoadingStyles";
+import React from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import styles from './LoadingStyles';
 
 const LoadingScreen = () => {
   return (

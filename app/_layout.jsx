@@ -1,12 +1,14 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./screens/LoginScreen";
-import SecondScreen from "./screens/SecondScreen";
-import ErrorBoundary from "@/app/_components/ErrorBoundary";
-import { ErrorProvider } from "@/app/_components/ErrorContext";
-import Header from "./_components/Header";
-import FileScreen from "@/app/screens/FileScreen";
-import SelectView from "@/app/screens/SelectView";
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './screens/LoginScreen';
+import SecondScreen from './screens/SecondScreen';
+import ErrorBoundary from '@/app/_components/ErrorBoundary';
+import { ErrorProvider } from '@/app/_components/ErrorContext';
+import Header from './_components/Header';
+import FileScreen from '@/app/screens/FileScreen';
+import SelectView from '@/app/screens/SelectView';
+import Toast from 'react-native-toast-message';
+import Footer from './_components/Footer';
 
 Stack = createStackNavigator();
 
@@ -30,6 +32,8 @@ const RootLayout = () => {
           <Stack.Screen name="selectView" component={SelectView} />
           <Stack.Screen name="webview" component={FileScreen} />
         </Stack.Navigator>
+        <Footer />
+        <Toast swipeable position="bottom" />
       </ErrorBoundary>
     </ErrorProvider>
   );

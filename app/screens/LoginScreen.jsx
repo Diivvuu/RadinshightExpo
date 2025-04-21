@@ -1,176 +1,95 @@
-import React, { useState, useEffect } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+'use client';
+import React, { useState } from 'react';
 import {
-  Image,
-  StyleSheet,
   Text,
   TextInput,
   View,
-  Animated,
   TouchableOpacity,
   SafeAreaView,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { Logo, UserProfileIcon } from "../_components/Icons";
-import { PasswordIcon } from "../_components/Icons";
-import GlobalBackground from "@/app/_components/GlobalBackground";
-import Icon from "react-native-vector-icons/Feather";
-import Svg, { Text as SvgText } from "react-native-svg";
-import { useNavigation } from "expo-router";
-import styles from "./LoginStyles";
-import { login } from "../api/auth";
-import { validateDicomServer } from "../api/dicomValidation";
-import LocalStorageService from "../services/LocalStorageServices";
-import  api from "../api/ApiServer";
+  Image,
+} from 'react-native';
+import { useNavigation } from 'expo-router';
+import Icon from 'react-native-vector-icons/Feather';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const isNotEmpty = (obj) => obj && Object.keys(obj).length
+import { login } from '../api/auth';
+import api from '../api/ApiServer';
+import LocalStorageService from '../services/LocalStorageServices';
+import GlobalBackground from '@/app/_components/GlobalBackground';
+import { UserProfileIcon, PasswordIcon } from '../_components/Icons';
+import styles from './LoginStyles';
+
+const isNotEmpty = (obj) => obj && Object.keys(obj).length;
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("pass");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const logoPosition = useState(new Animated.Value(0))[0];
-  const fadeIn = useState(new Animated.Value(0))[0];
-  const textFadeOut = useState(new Animated.Value(1))[0];
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleLogin = async () => {
-    console.log("clicked", username, password);
+    if (!username || !password) {
+      Toast.show({ type: 'error', text1: 'Enter username and password' });
+      return;
+    }
 
-    if (username && password) {
+    try {
       setLoading(true);
-      setError(null);
+      const { data: userData } = await login(username, password);
 
-      try {
-        debugger;
-        //navigation.navigate("home");
-        // const dicomTest = await validateDicomServer();
-        //console.log(dicomTest);
-        const data = await login(username, password);
-        console.log('logininfo', data)
-        let userData = data.data;
-        console.log(userData, "look");
-       if (userData.status === "error") {
-           console.error("login failed1", error);
-           setError("invalid username or password");
-         }
-       else if (userData.status === "pending" ){
-           console.error("login failed2", error);
-         setError("invalid username or password");
-         }
-         else {
-          await LocalStorageService.setUserInfo(userData);
-          if (
-            isNotEmpty(userData) &&
-            isNotEmpty(userData.user) &&
-            userData.access_token !== ""
-          ) {
-            // let licdata = await axios.get(APPCONFIG.HOST + "findall", {
-            //   headers: headers,
-            // });
-            console.log('findallapi', 'started')
-            let licdata = await api.get("/findall");
-            let licenseDatas = licdata.data.data;
-            console.log('findallresponse', licenseDatas)
-            let newDate = new Date();
-            let lic_date = new Date(licenseDatas[0].licenseTo);
-            LocalStorageService.setHospitalLimit(licenseDatas[0].hospitalLimit);
-            if (lic_date.getTime() < newDate.getTime()) {
-              // nextState.status = false
-              LocalStorageService.setLicenseStatus(false);
-            } else {
-              // nextState.status = true
-              LocalStorageService.setLicenseStatus(true);
-            }
-            // nextState.data = action.payload
-            // nextState.module = action.payload[0].moduleIds
-            LocalStorageService.setLicense(licenseDatas);
-            // let privilagedata = await axios.get(
-            //   APPCONFIG.HOST + "roles/" + userData.user.roleId + "/privileges",
-            //   { headers: headers }
-            // );
-            
-            let privilagedata = await api.get("/roles/" + userData.user.roleId + "/privileges")
-            let privilageDatas = privilagedata.data.data;
-            LocalStorageService.setPrivilege(privilageDatas);
-            LocalStorageService.setHospitalId(userData.user.hospital.hospitalId)
-            navigation.navigate("home");
-          }
-         }
-        
-      } catch (error) {
-        console.error("login failed3", error);
-        setError("invalid username or password");
-      } finally {
-        setLoading(false);
+      if (userData.status === 'error' || userData.status === 'pending') {
+        Toast.show({ type: 'error', text1: 'Invalid credentials' });
+        return;
       }
-    } else {
-      setError("please enter both username and password");
+
+      await LocalStorageService.setUserInfo(userData);
+      if (userData.access_token && isNotEmpty(userData.user)) {
+        const licRes = await api.get('api/findall');
+        const licenseData = licRes.data.data[0];
+
+        LocalStorageService.setHospitalLimit(licenseData.hospitalLimit);
+        LocalStorageService.setLicenseStatus(
+          new Date(licenseData.licenseTo) > new Date()
+        );
+        LocalStorageService.setLicense(licRes.data.data);
+
+        const privilegeRes = await api.get(
+          `api/roles/${userData.user.roleId}/privileges`
+        );
+        LocalStorageService.setPrivilege(privilegeRes.data.data);
+        LocalStorageService.setHospitalId(userData.user.hospital.hospitalId);
+
+        Toast.show({ type: 'success', text1: 'Login successful' });
+        navigation.navigate('home');
+      }
+    } catch (err) {
+      console.error('Login failed', err);
+      Toast.show({
+        type: 'error',
+        text1: 'Login failed',
+        text2: 'Invalid username or password',
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    //  throw new Error("Test error in LoginScreen!");
-    Animated.sequence([
-      Animated.timing(logoPosition, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.timing(textFadeOut, {
-        toValue: 0,
-        duration: 1000,
-        delay: 600,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeIn, {
-        toValue: 1,
-        duration: 1000,
-        // delay: 500,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [logoPosition, fadeIn, textFadeOut]);
 
   return (
     <GlobalBackground>
       <SafeAreaView style={styles.container}>
-        <Animated.View
-          style={[
-            styles.logoContainer,
-            {
-              transform: [
-                {
-                  translateY: logoPosition.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [100, 0], // Move logo from -100 to its final position
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
+        <View style={styles.logoContainer}>
           <Image
-            source={require("../../assets/logo-design-1 1.png")}
+            source={require('../../assets/logo-design-1 1.png')}
             style={styles.image}
           />
-        </Animated.View>
-        <Animated.View
-          style={{
-            opacity: textFadeOut,
-            zIndex: 40,
-            position: "absolute",
-            top: 400,
-          }}
-        >
-          <Logo />
-        </Animated.View>
-        <Animated.Text style={[styles.loginText, { opacity: fadeIn }]}>
-          Enter your login information
-        </Animated.Text>
-        <Animated.View style={[styles.UserNameInput, { opacity: fadeIn }]}>
+        </View>
+
+        <Text style={styles.loginText}>Enter your login information</Text>
+
+        {/* Username Input with Icon */}
+        <View style={styles.UserNameInput}>
           <UserProfileIcon style={styles.UserNameIcon} />
           <TextInput
             style={styles.input}
@@ -178,60 +97,56 @@ const LoginScreen = () => {
             onChangeText={setUsername}
             placeholder="Username"
             placeholderTextColor="#7c7c7c"
+            autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect={false}
+            textContentType="none"
+            importantForAutofill="no"
           />
-        </Animated.View>
-        <Animated.View style={[styles.PasswordInput, { opacity: fadeIn }]}>
-          <Animated.View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              opacity: fadeIn ,
-            }}
-          >
-            <PasswordIcon style={styles.UserNameIcon} />
+        </View>
+
+        {/* Password Input with Icon */}
+        <View style={styles.PasswordInput} pointerEvents="box-none">
+          <PasswordIcon style={styles.UserNameIcon} />
+          <View style={styles.passwordFieldWrapper}>
             <TextInput
               placeholder="Password"
-              style={styles.input}
+              style={[styles.input, { paddingRight: 40 }]}
               placeholderTextColor="#7C7C7C"
               secureTextEntry={!passwordVisible}
               onChangeText={setPassword}
-              value="pass"
+              value={password}
+              autoCapitalize="none"
+              autoComplete="off"
+              autoCorrect={false}
+              textContentType="none"
+              importantForAutofill="no"
             />
-          </Animated.View>
-          <TouchableOpacity
-            onPress={() => setPasswordVisible(!passwordVisible)}
-          >
-            <Icon
-              name={passwordVisible ? "eye-off" : "eye"} // Toggle eye icon
-              size={20}
-              color="#7C7C7C"
-              style={{ paddingHorizontal: 0 }}
-            />
-          </TouchableOpacity>
-        </Animated.View>
-        <Animated.View
-          style={{
-            opacity: fadeIn,
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Animated.View style={styles.button}>
-            <TouchableOpacity onPress={handleLogin}>
-              <LinearGradient
-                colors={["#CF5510", "#B44A0E"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                // style={styles.button}
-                style={{ borderRadius: 15 }}
-              >
-                <Text style={styles.buttonText}>Login</Text>
-              </LinearGradient>
+            <TouchableOpacity
+              activeOpacity={1}
+              android_ripple={null}
+              hasTVPreferredFocus={false}
+              styles={styles.eyeIconWrapper}
+              onPress={() => setPasswordVisible(!passwordVisible)}
+            >
+              <Icon
+                name={passwordVisible ? 'eye-off' : 'eye'}
+                size={20}
+                color="#7C7C7C"
+              />
             </TouchableOpacity>
-          </Animated.View>
-        </Animated.View>
+          </View>{' '}
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>
+            {loading ? 'Logging in...' : 'Login'}
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </GlobalBackground>
   );

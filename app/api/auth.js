@@ -36,7 +36,7 @@ export const login = async (username, password) => {
 
     //const response = await api.post(`${APPConfig.HOST}auth/login`, body);
     //api.get('patientlist/635d8fc9-db56-406b-8df6-f6cb2eade6ec')
-    const response = await api.post(`/auth/login`, body);
+    const response = await api.post(`api/auth/login`, body);
     console.log(response);
     return response.data; // Return the response data to be used in the screen
   } catch (error) {

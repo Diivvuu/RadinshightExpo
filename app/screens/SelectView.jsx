@@ -62,7 +62,9 @@ const SelectView = ({ navigation }) => {
         includefield: "00081030%2C00080060",
       },
     };
-    api.get('http://13.201.159.251:8001/series/aphcor/1.2.840.113619.2.290.3.2831157764.250.1535507756.909')
+    api.get(`https://radinsightai.com:3020/series/aphcor/${InstanceID}`)
+    //api.get(`series/aphcor/${InstanceID}`)
+    // api.get('http://13.201.159.251:8001/series/aphcor/1.2.840.113619.2.290.3.2831157764.250.1535507756.909')
     .then(response => {
       if (response.ok) {
         console.log("seriesoutput", response.data);
@@ -106,7 +108,7 @@ const SelectView = ({ navigation }) => {
         <View>
           {series.map((data, index) => (
             <View key={index}>
-              <ViewCard data={data} />
+               <ViewCard data={{...data,...patient}} />
             </View>
           ))}
         </View>
