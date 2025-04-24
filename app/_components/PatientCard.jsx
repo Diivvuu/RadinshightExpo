@@ -69,7 +69,7 @@ const PatientCard = ({ data }) => {
             }}
           >
             <Text style={{ fontSize: 12, color: "white" }}>{data.studyDate}</Text>
-            <Text style={{ fontSize: 12, color: "white" }}>{data?.numberOfStudyRelatedInstances}</Text>
+            {/* <Text style={{ fontSize: 12, color: "white" }}>{data?.numberOfStudyRelatedInstances}</Text> */}
           </View>
         </View>
       </TouchableOpacity>

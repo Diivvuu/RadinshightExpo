@@ -135,7 +135,7 @@ const LoginScreen = () => {
                 color="#7C7C7C"
               />
             </TouchableOpacity>
-          </View>{' '}
+          </View>
         </View>
 
         <TouchableOpacity
